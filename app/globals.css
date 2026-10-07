@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-realestate: var(--realestate);
+  --color-professionals: var(--professionals);
+  --color-market: var(--market);
+  --color-encyclopedia: var(--encyclopedia);
+
+  --font-sans: var(--font-ibm-plex-arabic), system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --background: #f7f8fa;
+  --surface: #ffffff;
+  --surface-elevated: #fbfcfd;
+  --border: #e2e5ea;
+  --text: #1a2230;
+  --text-muted: #5a6675;
+
+  --primary: #1e3a5f;
+  --primary-foreground: #ffffff;
+
+  --realestate: #10a37f;
+  --professionals: #2563eb;
+  --market: #ea8a1c;
+  --encyclopedia: #0d7a7a;
+}
+
+.dark {
+  --background: #0f1419;
+  --surface: #1a2029;
+  --surface-elevated: #232a35;
+  --border: #2f3844;
+  --text: #e8ecf1;
+  --text-muted: #9aa4b2;
+
+  --primary: #5b8fc9;
+  --primary-foreground: #0f1419;
+
+  --realestate: #34c99a;
+  --professionals: #5c9eff;
+  --market: #f0a83c;
+  --encyclopedia: #2eb3b3;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    background-color: var(--background);
+    color: var(--text);
+    font-family: var(--font-sans);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+  }
+}
