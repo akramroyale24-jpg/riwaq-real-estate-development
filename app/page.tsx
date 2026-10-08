@@ -1,5 +1,6 @@
 import Card from "@/components/ui/Card";
 import TestJavaScript from "@/components/TestJavaScript";
+
 export default function Home() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 space-y-10">
@@ -86,10 +87,7 @@ export default function Home() {
 
       <section className="space-y-2">
         <h2 className="text-xl font-medium">اختبار الاتجاه RTL</h2>
-      <section className="space-y-3">
-        <h2 className="text-xl font-medium">اختبار JavaScript التفاعلي</h2>
-        <TestJavaScript />
-      </section>
+
         <div className="flex items-center gap-2 border rounded-md p-3 bg-surface-elevated">
           <span className="rounded bg-primary px-2 py-1 text-xs text-primary-foreground">
             البداية
@@ -105,6 +103,12 @@ export default function Home() {
             النهاية
           </span>
         </div>
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="text-xl font-medium">اختبار JavaScript التفاعلي</h2>
+
+        <TestJavaScript />
       </section>
     </div>
   );
