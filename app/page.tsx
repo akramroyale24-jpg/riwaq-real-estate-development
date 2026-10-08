@@ -1,89 +1,105 @@
-import Card from "@/components/ui/Card";
+import Hero from "@/components/home/Hero";
+import PathCard from "@/components/home/PathCard";
 
 export default function Home() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 space-y-10">
-      {/* عنوان الصفحة */}
-      <section className="space-y-3">
-        <h1 className="text-3xl font-bold">رواق الترقية العقارية</h1>
-        <p className="text-text-muted">
-          صفحة اختبار تقنية للمرحلة الأولى — تختبر البنية، RTL، الخط، الثيم،
-          والاستجابة. هذه ليست الواجهة النهائية.
+    <div className="mx-auto max-w-6xl px-4 py-8 space-y-12">
+      {/* المنطقة الترحيبية */}
+      <Hero />
+
+      {/* منطقة البحث — بصرية فقط، غير مفعّلة */}
+      <section aria-label="البحث" className="space-y-3">
+        <div className="mx-auto flex max-w-2xl gap-2">
+          <input
+            type="text"
+            placeholder="ابحث عن عقار، مهني، أو منتج..."
+            aria-label="حقل البحث (غير مفعّل حاليًا)"
+            disabled
+            className="flex-1 min-h-[48px] rounded-md border border-border bg-surface-elevated px-4 text-text-muted placeholder:text-text-muted cursor-not-allowed"
+          />
+          <button
+            type="button"
+            aria-label="بحث (غير مفعّل حاليًا)"
+            disabled
+            className="inline-flex h-12 w-12 items-center justify-center rounded-md border border-border bg-surface-elevated text-text-muted cursor-not-allowed"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+          </button>
+        </div>
+        <p className="text-center text-sm text-text-muted">
+          البحث الذكي قيد التطوير — سيتوفّر قريبًا
         </p>
       </section>
 
-      {/* الألوان الدلالية */}
-      <section className="space-y-3">
-        <h2 className="text-xl font-medium">الألوان الدلالية للمسارات</h2>
-        <div className="flex flex-wrap gap-3">
-          <span className="rounded-full bg-realestate px-3 py-1 text-sm font-medium text-white">
-            العروض العقارية
-          </span>
-          <span className="rounded-full bg-professionals px-3 py-1 text-sm font-medium text-white">
-            المهنيون والشركاء
-          </span>
-          <span className="rounded-full bg-market px-3 py-1 text-sm font-medium text-white">
-            سوق البناء والتجهيزات
-          </span>
-          <span className="rounded-full bg-encyclopedia px-3 py-1 text-sm font-medium text-white">
-            الموسوعة العقارية والعمرانية
-          </span>
-          <span className="rounded-full bg-primary px-3 py-1 text-sm font-medium text-primary-foreground">
-            اللون العام
-          </span>
+      {/* المسارات الأربعة */}
+      <section className="space-y-4">
+        <h2 className="text-2xl font-bold">المسارات الرئيسية</h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <PathCard
+            variant="realestate"
+            title="العروض العقارية"
+            description="بيع، إيجار، وحجز العقارات في مختلف الولايات."
+          />
+          <PathCard
+            variant="professionals"
+            title="المهنيون والشركاء"
+            description="دليل المهنيين والحرفيين والشركاء في القطاع العقاري."
+          />
+          <PathCard
+            variant="market"
+            title="سوق البناء والتجهيزات"
+            description="مواد البناء، المعدات، والآليات الثقيلة للبيع والكراء."
+          />
+          <PathCard
+            variant="encyclopedia"
+            title="الموسوعة العقارية والعمرانية"
+            description="مرجع معرفي وقانوني لبناء الثقة ورفع الوعي العقاري."
+          />
         </div>
       </section>
 
-      {/* بطاقة تجريبية */}
-      <section className="space-y-3">
-        <h2 className="text-xl font-medium">بطاقة تجريبية</h2>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Card>
-            <h3 className="mb-2 text-lg font-bold">عنوان تجريبي</h3>
-            <p className="text-sm text-text-muted">
-              نص تجريبي لاختبار البطاقة والحدود والظل والتباين مع الخلفية.
-            </p>
-          </Card>
-          <Card>
-            <h3 className="mb-2 text-lg font-bold">عنوان تجريبي</h3>
-            <p className="text-sm text-text-muted">
-              بطاقة ثانية للتأكد من ثبات التصميم عند التكرار.
-            </p>
-          </Card>
-          <Card>
-            <h3 className="mb-2 text-lg font-bold">عنوان تجريبي</h3>
-            <p className="text-sm text-text-muted">
-              بطاقة ثالثة لاختبار الشبكة على الحاسوب واللوحي والهاتف.
-            </p>
-          </Card>
-        </div>
-      </section>
-
-      {/* أوزان الخط */}
-      <section className="space-y-2">
-        <h2 className="text-xl font-medium">اختبار الخط (IBM Plex Sans Arabic)</h2>
-        <p className="font-bold">Bold — عريض للعناوين الرئيسية والأسعار.</p>
-        <p className="font-medium">Medium — متوسط للبادجات والعناوين الثانوية.</p>
-        <p>Regular — عادي للنصوص والوصف.</p>
-        <p className="text-text-muted">
-          نص ثانوي بلون muted لاختبار التباين.
+      {/* شريط الأمان والتوثيق */}
+      <section className="rounded-lg border bg-surface-elevated p-6 space-y-3">
+        <h2 className="text-xl font-bold">الأمان والتوثيق</h2>
+        <p className="text-sm text-text-muted leading-relaxed">
+          نؤكد على أهمية التعامل المباشر والتعاقد أمام الموثق. جميع الإعلانات
+          تخضع لمراجعة فريق رواق قبل النشر.
         </p>
       </section>
 
-      {/* اختبار RTL */}
-      <section className="space-y-2">
-        <h2 className="text-xl font-medium">اختبار الاتجاه RTL</h2>
-        <div className="flex items-center gap-2 border rounded-md p-3 bg-surface-elevated">
-          <span className="rounded bg-primary px-2 py-1 text-xs text-primary-foreground">
-            البداية
-          </span>
-          <span className="text-text-muted">←</span>
-          <span>عنصر في المنتصف</span>
-          <span className="text-text-muted">←</span>
-          <span className="rounded bg-market px-2 py-1 text-xs text-white">
-            النهاية
-          </span>
-        </div>
+      {/* دعوة لنشر إعلان — بصرية فقط، ستُفعّل لاحقًا */}
+      <section className="rounded-lg border bg-surface p-8 text-center space-y-4 shadow-md">
+        <h2 className="text-2xl font-bold">
+          هل لديك عقار أو خدمة لنشرها؟
+        </h2>
+        <p className="text-text-muted leading-relaxed">
+          انشر إعلانك الآن وسيتم مراجعته من فريق رواق قبل النشر.
+        </p>
+        <button
+          type="button"
+          aria-label="نشر إعلان (غير مفعّل حاليًا)"
+          disabled
+          className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-md border border-border bg-surface-elevated px-6 py-3 text-text-muted font-medium cursor-not-allowed"
+        >
+          أنشر إعلانك
+        </button>
+        <p className="text-sm text-text-muted">
+          خاصية النشر ستُفعّل قريبًا
+        </p>
       </section>
     </div>
   );
