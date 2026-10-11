@@ -82,7 +82,7 @@ export default function Home() {
       </section>
 
       {/* دعوة لنشر إعلان — بصرية فقط، ستُفعّل لاحقًا */}
-      <section className="rounded-lg border bg-surface p-8 text-center space-y-4 shadow-md">
+      <section className="rounded-lg border bg-surface p-8 text-center space-y-4 shadow-card">
         <h2 className="text-2xl font-bold">
           هل لديك عقار أو خدمة لنشرها؟
         </h2>
