@@ -19,13 +19,15 @@
   --color-encyclopedia: var(--encyclopedia);
 
   --font-sans: var(--font-ibm-plex-arabic), system-ui, -apple-system, sans-serif;
+
+  --shadow-card: var(--shadow-card-value);
 }
 
 :root {
-  --background: #f7f8fa;
+  --background: #eef1f6;
   --surface: #ffffff;
-  --surface-elevated: #fbfcfd;
-  --border: #e2e5ea;
+  --surface-elevated: #f8fafc;
+  --border: #d8dde5;
   --text: #1a2230;
   --text-muted: #5a6675;
 
@@ -36,6 +38,9 @@
   --professionals: #2563eb;
   --market: #ea8a1c;
   --encyclopedia: #0d7a7a;
+
+  --shadow-card-value: 0 1px 3px rgba(15, 23, 42, 0.08),
+                       0 6px 16px rgba(15, 23, 42, 0.1);
 }
 
 .dark {
@@ -53,6 +58,9 @@
   --professionals: #5c9eff;
   --market: #f0a83c;
   --encyclopedia: #2eb3b3;
+
+  --shadow-card-value: 0 1px 3px rgba(0, 0, 0, 0.4),
+                       0 6px 16px rgba(0, 0, 0, 0.35);
 }
 
 @layer base {
