@@ -50,21 +50,25 @@ export default function Home() {
         <h2 className="text-2xl font-bold">المسارات الرئيسية</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           <PathCard
+            href="/real-estate"
             variant="realestate"
             title="العروض العقارية"
             description="بيع، إيجار، وحجز العقارات في مختلف الولايات."
           />
           <PathCard
+            href="/professionals"
             variant="professionals"
             title="المهنيون والشركاء"
             description="دليل المهنيين والحرفيين والشركاء في القطاع العقاري."
           />
           <PathCard
+            href="/market"
             variant="market"
             title="سوق البناء والتجهيزات"
             description="مواد البناء، المعدات، والآليات الثقيلة للبيع والكراء."
           />
           <PathCard
+            href="/encyclopedia"
             variant="encyclopedia"
             title="الموسوعة العقارية والعمرانية"
             description="مرجع معرفي وقانوني لبناء الثقة ورفع الوعي العقاري."
