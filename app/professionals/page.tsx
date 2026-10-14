@@ -1,5 +1,6 @@
 import PageHeader from "@/components/layout/PageHeader";
-import Card from "@/components/ui/Card";
+import ProfessionalsBrowser from "@/components/professional/ProfessionalsBrowser";
+import { SAMPLE_PROFESSIONALS } from "@/lib/professionals";
 
 export default function ProfessionalsPage() {
   return (
@@ -9,11 +10,7 @@ export default function ProfessionalsPage() {
         title="المهنيون والشركاء"
         description="دليل المهنيين والحرفيين والشركاء في القطاع العقاري."
       />
-      <Card>
-        <p className="text-center text-text-muted py-8">
-          هذا القسم قيد الإنشاء — سيُبنى المحتوى قريبًا
-        </p>
-      </Card>
+      <ProfessionalsBrowser professionals={SAMPLE_PROFESSIONALS} />
     </div>
   );
 }
