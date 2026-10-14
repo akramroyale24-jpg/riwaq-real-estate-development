@@ -1,5 +1,6 @@
 import PageHeader from "@/components/layout/PageHeader";
-import Card from "@/components/ui/Card";
+import MarketBrowser from "@/components/market/MarketBrowser";
+import { SAMPLE_MARKET_ITEMS } from "@/lib/market-items";
 
 export default function MarketPage() {
   return (
@@ -9,11 +10,7 @@ export default function MarketPage() {
         title="سوق البناء والتجهيزات"
         description="مواد البناء، المعدات، والآليات الثقيلة للبيع والكراء."
       />
-      <Card>
-        <p className="text-center text-text-muted py-8">
-          هذا القسم قيد الإنشاء — سيُبنى المحتوى قريبًا
-        </p>
-      </Card>
+      <MarketBrowser items={SAMPLE_MARKET_ITEMS} />
     </div>
   );
 }
