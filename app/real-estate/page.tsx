@@ -1,5 +1,6 @@
 import PageHeader from "@/components/layout/PageHeader";
-import Card from "@/components/ui/Card";
+import RealEstateBrowser from "@/components/property/RealEstateBrowser";
+import { SAMPLE_PROPERTIES } from "@/lib/properties";
 
 export default function RealEstatePage() {
   return (
@@ -9,11 +10,7 @@ export default function RealEstatePage() {
         title="العروض العقارية"
         description="بيع، إيجار، وحجز العقارات في مختلف الولايات."
       />
-      <Card>
-        <p className="text-center text-text-muted py-8">
-          هذا القسم قيد الإنشاء — سيُبنى المحتوى قريبًا
-        </p>
-      </Card>
+      <RealEstateBrowser properties={SAMPLE_PROPERTIES} />
     </div>
   );
 }
