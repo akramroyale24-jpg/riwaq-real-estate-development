@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Property } from "@/lib/properties";
 import {
   TRANSACTION_LABELS,
@@ -74,10 +75,12 @@ export default function PropertyCard({ property }: PropertyCardProps) {
   const phrase = transactionPhrase[property.transaction];
 
   return (
-    <article className="rounded-lg border bg-surface shadow-card overflow-hidden flex flex-col">
+    <Link
+      href={`/real-estate/${property.id}`}
+      className="block rounded-lg border bg-surface shadow-card overflow-hidden flex flex-col transition-shadow hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary"
+    >
       {/* ------- الصورة / Placeholder ------- */}
       <div className="relative aspect-[4/3] bg-surface-elevated border-b flex items-center justify-center">
-        {/* أيقونة المبنى (Placeholder) */}
         <svg
           width="56"
           height="56"
@@ -95,14 +98,12 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           <path d="M8 6h.01M16 6h.01M12 6h.01M8 10h.01M16 10h.01M12 10h.01M8 14h.01M16 14h.01M12 14h.01" />
         </svg>
 
-        {/* بادج نوع المعاملة — الزاوية العلوية اليمنى */}
         <span
           className={`absolute top-3 start-3 rounded-full px-3 py-1 text-xs font-medium ${transactionColors[property.transaction]}`}
         >
           {transactionLabel}
         </span>
 
-        {/* بادج نوع العقار — الزاوية العلوية اليسرى */}
         <span className="absolute top-3 end-3 rounded-full bg-slate-900/70 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
           {typeLabel}
         </span>
@@ -110,12 +111,10 @@ export default function PropertyCard({ property }: PropertyCardProps) {
 
       {/* ------- المعلومات ------- */}
       <div className="p-4 space-y-3 flex-1 flex flex-col">
-        {/* السطر الرئيسي */}
         <h3 className="text-base font-medium leading-snug">
           {subCategoryLabel} — {phrase}
         </h3>
 
-        {/* الولاية والبلدية */}
         <div className="flex items-center gap-2 text-sm text-text-muted">
           <svg
             width="14"
@@ -137,7 +136,6 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </span>
         </div>
 
-        {/* المساحة + السعر */}
         <div className="flex items-center gap-4 text-sm">
           <div className="flex items-center gap-2">
             <svg
@@ -178,7 +176,6 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </div>
         </div>
 
-        {/* رقم الهاتف */}
         <div className="flex items-center gap-2 text-sm text-text-muted">
           <svg
             width="14"
@@ -199,7 +196,6 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </span>
         </div>
 
-        {/* رقم المرجع — أسفل البطاقة */}
         <div className="mt-auto pt-3 border-t text-xs text-text-muted">
           رقم المرجع:{" "}
           <span dir="ltr" className="font-medium">
@@ -207,6 +203,6 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
