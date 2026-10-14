@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Professional } from "@/lib/professionals";
 import {
   SPECIALIZATION_LABELS,
@@ -8,18 +9,16 @@ type ProfessionalCardProps = {
   professional: Professional;
 };
 
-// --------------------------------------------
-// المكوّن
-// --------------------------------------------
 export default function ProfessionalCard({ professional }: ProfessionalCardProps) {
   const specializationLabel = SPECIALIZATION_LABELS[professional.specialization];
   const mobilityLabel = MOBILITY_SCOPE_LABELS[professional.mobility];
 
   return (
-    <article className="rounded-lg border bg-surface shadow-card overflow-hidden flex flex-col">
-      {/* ------- الصورة / Placeholder ------- */}
+    <Link
+      href={`/professionals/${professional.id}`}
+      className="block rounded-lg border bg-surface shadow-card overflow-hidden flex flex-col transition-shadow hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary"
+    >
       <div className="relative aspect-[4/3] bg-surface-elevated border-b flex items-center justify-center">
-        {/* أيقونة شخص (Placeholder) */}
         <svg
           width="64"
           height="64"
@@ -36,20 +35,16 @@ export default function ProfessionalCard({ professional }: ProfessionalCardProps
           <path d="M4 22c0-4 4-6 8-6s8 2 8 6" />
         </svg>
 
-        {/* بادج التخصص — الزاوية العلوية اليمنى */}
         <span className="absolute top-3 start-3 rounded-full bg-professionals px-3 py-1 text-xs font-medium text-white">
           {specializationLabel}
         </span>
       </div>
 
-      {/* ------- المعلومات ------- */}
       <div className="p-4 space-y-3 flex-1 flex flex-col">
-        {/* الاسم الكامل */}
         <h3 className="text-base font-medium leading-snug">
           {professional.fullName}
         </h3>
 
-        {/* سنوات الخبرة */}
         <div className="flex items-center gap-2 text-sm text-text-muted">
           <svg
             width="14"
@@ -70,7 +65,6 @@ export default function ProfessionalCard({ professional }: ProfessionalCardProps
           </span>
         </div>
 
-        {/* الولاية */}
         <div className="flex items-center gap-2 text-sm text-text-muted">
           <svg
             width="14"
@@ -90,7 +84,6 @@ export default function ProfessionalCard({ professional }: ProfessionalCardProps
           <span>ولاية {professional.wilaya}</span>
         </div>
 
-        {/* نطاق التنقل */}
         <div className="flex items-center gap-2 text-sm text-text-muted">
           <svg
             width="14"
@@ -109,7 +102,6 @@ export default function ProfessionalCard({ professional }: ProfessionalCardProps
           <span>{mobilityLabel}</span>
         </div>
 
-        {/* رقم الهاتف */}
         <div className="flex items-center gap-2 text-sm text-text-muted">
           <svg
             width="14"
@@ -130,7 +122,6 @@ export default function ProfessionalCard({ professional }: ProfessionalCardProps
           </span>
         </div>
 
-        {/* رقم المرجع */}
         <div className="mt-auto pt-3 border-t text-xs text-text-muted">
           رقم المرجع:{" "}
           <span dir="ltr" className="font-medium">
@@ -138,6 +129,6 @@ export default function ProfessionalCard({ professional }: ProfessionalCardProps
           </span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
