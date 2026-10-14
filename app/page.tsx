@@ -1,7 +1,21 @@
+import Link from "next/link";
 import Hero from "@/components/home/Hero";
 import PathCard from "@/components/home/PathCard";
+import PropertyCard from "@/components/property/PropertyCard";
+import ProfessionalCard from "@/components/professional/ProfessionalCard";
+import MarketCard from "@/components/market/MarketCard";
+import ArticleCard from "@/components/encyclopedia/ArticleCard";
+import { SAMPLE_PROPERTIES } from "@/lib/properties";
+import { SAMPLE_PROFESSIONALS } from "@/lib/professionals";
+import { SAMPLE_MARKET_ITEMS } from "@/lib/market-items";
+import { SAMPLE_ARTICLES } from "@/lib/encyclopedia";
 
 export default function Home() {
+  const featuredProperties = SAMPLE_PROPERTIES.slice(0, 3);
+  const featuredProfessionals = SAMPLE_PROFESSIONALS.slice(0, 3);
+  const featuredMarketItems = SAMPLE_MARKET_ITEMS.slice(0, 3);
+  const featuredArticles = SAMPLE_ARTICLES.slice(0, 3);
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 space-y-12">
       {/* المنطقة الترحيبية */}
@@ -73,6 +87,81 @@ export default function Home() {
             title="الموسوعة العقارية والعمرانية"
             description="مرجع معرفي وقانوني لبناء الثقة ورفع الوعي العقاري."
           />
+        </div>
+      </section>
+
+      {/* ------- عينات: العروض العقارية ------- */}
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold">أحدث العروض العقارية</h2>
+          <Link
+            href="/real-estate"
+            className="text-sm text-primary hover:underline"
+          >
+            عرض الكل ←
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {featuredProperties.map((property) => (
+            <PropertyCard key={property.id} property={property} />
+          ))}
+        </div>
+      </section>
+
+      {/* ------- عينات: المهنيون والشركاء ------- */}
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold">مهنيون مميزون</h2>
+          <Link
+            href="/professionals"
+            className="text-sm text-primary hover:underline"
+          >
+            عرض الكل ←
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {featuredProfessionals.map((professional) => (
+            <ProfessionalCard
+              key={professional.id}
+              professional={professional}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* ------- عينات: سوق البناء والتجهيزات ------- */}
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold">جديد سوق البناء</h2>
+          <Link
+            href="/market"
+            className="text-sm text-primary hover:underline"
+          >
+            عرض الكل ←
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {featuredMarketItems.map((item) => (
+            <MarketCard key={item.id} item={item} />
+          ))}
+        </div>
+      </section>
+
+      {/* ------- عينات: الموسوعة العقارية والعمرانية ------- */}
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold">من الموسوعة العقارية</h2>
+          <Link
+            href="/encyclopedia"
+            className="text-sm text-primary hover:underline"
+          >
+            عرض الكل ←
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {featuredArticles.map((article) => (
+            <ArticleCard key={article.id} article={article} />
+          ))}
         </div>
       </section>
 
