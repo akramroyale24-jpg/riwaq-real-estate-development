@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { MarketItem } from "@/lib/market-items";
 import {
   MARKET_CATEGORY_LABELS,
@@ -8,16 +9,10 @@ type MarketCardProps = {
   item: MarketItem;
 };
 
-// --------------------------------------------
-// تنسيق الأرقام بفواصل الآلاف
-// --------------------------------------------
 function formatNumber(n: number): string {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
 
-// --------------------------------------------
-// تنسيق السعر
-// --------------------------------------------
 function formatPrice(item: MarketItem): string {
   if (item.price === null) return "السعر عند الاتصال";
   const formatted = formatNumber(item.price);
@@ -26,18 +21,16 @@ function formatPrice(item: MarketItem): string {
   return `${formatted} دج`;
 }
 
-// --------------------------------------------
-// المكوّن
-// --------------------------------------------
 export default function MarketCard({ item }: MarketCardProps) {
   const categoryLabel = MARKET_CATEGORY_LABELS[item.category];
   const listingLabel = LISTING_TYPE_LABELS[item.listingType];
 
   return (
-    <article className="rounded-lg border bg-surface shadow-card overflow-hidden flex flex-col">
-      {/* ------- الصورة / Placeholder ------- */}
+    <Link
+      href={`/market/${item.id}`}
+      className="block rounded-lg border bg-surface shadow-card overflow-hidden flex flex-col transition-shadow hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary"
+    >
       <div className="relative aspect-[4/3] bg-surface-elevated border-b flex items-center justify-center">
-        {/* أيقونة صندوق/أدوات (Placeholder) */}
         <svg
           width="56"
           height="56"
@@ -54,23 +47,18 @@ export default function MarketCard({ item }: MarketCardProps) {
           <path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12" />
         </svg>
 
-        {/* بادج الفئة — الزاوية العلوية اليمنى */}
         <span className="absolute top-3 start-3 rounded-full bg-market px-3 py-1 text-xs font-medium text-white">
           {categoryLabel}
         </span>
 
-        {/* بادج نوع العرض — الزاوية العلوية اليسرى */}
         <span className="absolute top-3 end-3 rounded-full bg-slate-900/70 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
           {listingLabel}
         </span>
       </div>
 
-      {/* ------- المعلومات ------- */}
       <div className="p-4 space-y-3 flex-1 flex flex-col">
-        {/* العنوان */}
         <h3 className="text-base font-medium leading-snug">{item.title}</h3>
 
-        {/* الولاية */}
         <div className="flex items-center gap-2 text-sm text-text-muted">
           <svg
             width="14"
@@ -90,7 +78,6 @@ export default function MarketCard({ item }: MarketCardProps) {
           <span>ولاية {item.wilaya}</span>
         </div>
 
-        {/* السعر */}
         <div className="flex items-center gap-2 text-sm font-medium">
           <svg
             width="14"
@@ -110,7 +97,6 @@ export default function MarketCard({ item }: MarketCardProps) {
           <span className="tabular-nums">{formatPrice(item)}</span>
         </div>
 
-        {/* رقم الهاتف */}
         <div className="flex items-center gap-2 text-sm text-text-muted">
           <svg
             width="14"
@@ -131,7 +117,6 @@ export default function MarketCard({ item }: MarketCardProps) {
           </span>
         </div>
 
-        {/* رقم المرجع */}
         <div className="mt-auto pt-3 border-t text-xs text-text-muted">
           رقم المرجع:{" "}
           <span dir="ltr" className="font-medium">
@@ -139,6 +124,6 @@ export default function MarketCard({ item }: MarketCardProps) {
           </span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
