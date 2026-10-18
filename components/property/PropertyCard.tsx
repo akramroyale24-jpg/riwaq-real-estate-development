@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Property } from "@/lib/properties";
+import { formatPrice, formatDate } from "@/lib/properties";
 import {
   TRANSACTION_LABELS,
   PROPERTY_TYPE_LABELS,
@@ -13,25 +14,22 @@ type PropertyCardProps = {
 };
 
 // --------------------------------------------
-// ألوان بادج نوع المعاملة
+// الشريط اللوني العلوي حسب نوع المعاملة
 // --------------------------------------------
-const transactionColors: Record<Property["transaction"], string> = {
+const transactionBarClass: Record<Property["transaction"], string> = {
+  sale: "bg-realestate",
+  rent: "bg-professionals",
+  reservation: "bg-market",
+};
+
+const transactionBadgeClass: Record<Property["transaction"], string> = {
   sale: "bg-realestate text-white",
   rent: "bg-professionals text-white",
   reservation: "bg-market text-white",
 };
 
 // --------------------------------------------
-// صياغة نوع المعاملة داخل الجملة
-// --------------------------------------------
-const transactionPhrase: Record<Property["transaction"], string> = {
-  sale: "للبيع",
-  rent: "للإيجار",
-  reservation: "حجز",
-};
-
-// --------------------------------------------
-// استخراج التصنيف الفرعي حسب نوع العقار
+// التصنيف الفرعي المختصر (للبادج)
 // --------------------------------------------
 function getSubCategoryLabel(property: Property): string {
   switch (property.type) {
@@ -41,28 +39,7 @@ function getSubCategoryLabel(property: Property): string {
       return BUILDING_SUB_CATEGORY_LABELS[property.subCategory];
     case "project":
       return PROJECT_SUB_CATEGORY_LABELS[property.subCategory];
-    case "commercial":
-      return property.subCategory ?? "محل تجاري";
   }
-}
-
-// --------------------------------------------
-// تنسيق الأرقام بفواصل الآلاف
-// --------------------------------------------
-function formatNumber(n: number): string {
-  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-}
-
-// --------------------------------------------
-// تنسيق السعر
-// --------------------------------------------
-function formatPrice(property: Property): string {
-  if (property.price === null) return "السعر عند الاتصال";
-  const formatted = formatNumber(property.price);
-  if (property.priceUnit === "monthly") {
-    return `${formatted} دج / شهر`;
-  }
-  return `${formatted} دج`;
 }
 
 // --------------------------------------------
@@ -72,18 +49,23 @@ export default function PropertyCard({ property }: PropertyCardProps) {
   const subCategoryLabel = getSubCategoryLabel(property);
   const transactionLabel = TRANSACTION_LABELS[property.transaction];
   const typeLabel = PROPERTY_TYPE_LABELS[property.type];
-  const phrase = transactionPhrase[property.transaction];
 
   return (
     <Link
       href={`/real-estate/${property.id}`}
-      className="block rounded-lg border bg-surface shadow-card overflow-hidden flex flex-col transition-shadow hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary"
+      className="relative flex rounded-lg border bg-surface shadow-card overflow-hidden transition-shadow hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary min-h-[160px] md:min-h-[200px]"
     >
-      {/* ------- الصورة / Placeholder ------- */}
-      <div className="relative aspect-[4/3] bg-surface-elevated border-b flex items-center justify-center">
+      {/* الشريط اللوني العلوي */}
+      <div
+        className={`absolute top-0 start-0 end-0 h-1 z-10 ${transactionBarClass[property.transaction]}`}
+        aria-hidden="true"
+      />
+
+      {/* الصورة / Placeholder — يمين في RTL */}
+      <div className="w-28 md:w-40 shrink-0 bg-surface-elevated border-e flex items-center justify-center">
         <svg
-          width="56"
-          height="56"
+          width="44"
+          height="44"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -97,25 +79,32 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           <path d="M9 22v-4h6v4" />
           <path d="M8 6h.01M16 6h.01M12 6h.01M8 10h.01M16 10h.01M12 10h.01M8 14h.01M16 14h.01M12 14h.01" />
         </svg>
-
-        <span
-          className={`absolute top-3 start-3 rounded-full px-3 py-1 text-xs font-medium ${transactionColors[property.transaction]}`}
-        >
-          {transactionLabel}
-        </span>
-
-        <span className="absolute top-3 end-3 rounded-full bg-slate-900/70 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
-          {typeLabel}
-        </span>
       </div>
 
-      {/* ------- المعلومات ------- */}
-      <div className="p-4 space-y-3 flex-1 flex flex-col">
-        <h3 className="text-base font-medium leading-snug">
-          {subCategoryLabel} — {phrase}
-        </h3>
+      {/* المحتوى */}
+      <div className="flex-1 p-3 md:p-4 pt-4 md:pt-5 flex flex-col gap-1.5 md:gap-2 min-w-0">
+        {/* البادجات */}
+        <div className="flex flex-wrap items-center gap-1.5">
+          <span
+            className={`rounded-full px-2 py-0.5 text-xs font-medium ${transactionBadgeClass[property.transaction]}`}
+          >
+            {transactionLabel}
+          </span>
+          <span className="rounded-full bg-slate-900/70 px-2 py-0.5 text-xs font-medium text-white">
+            {typeLabel}
+          </span>
+          <span className="rounded-full bg-surface-elevated border px-2 py-0.5 text-xs font-medium text-text-muted">
+            {subCategoryLabel}
+          </span>
+        </div>
 
-        <div className="flex items-center gap-2 text-sm text-text-muted">
+        {/* الوصف — مقصوص إلى سطرين */}
+        <p className="text-sm md:text-base font-medium leading-snug line-clamp-2">
+          {property.description}
+        </p>
+
+        {/* الموقع */}
+        <div className="flex items-center gap-1.5 text-xs md:text-sm text-text-muted min-w-0">
           <svg
             width="14"
             height="14"
@@ -131,13 +120,15 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
             <circle cx="12" cy="10" r="3" />
           </svg>
-          <span>
+          <span className="truncate">
             {property.wilaya} — {property.baladiya}
+            {property.neighborhood ? ` — ${property.neighborhood}` : ""}
           </span>
         </div>
 
-        <div className="flex items-center gap-4 text-sm">
-          <div className="flex items-center gap-2">
+        {/* المساحة + السعر */}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs md:text-sm">
+          <div className="flex items-center gap-1">
             <svg
               width="14"
               height="14"
@@ -155,8 +146,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             </svg>
             <span className="tabular-nums">{property.area} م²</span>
           </div>
-
-          <div className="flex items-center gap-2 font-medium">
+          <div className="flex items-center gap-1 font-medium">
             <svg
               width="14"
               height="14"
@@ -176,27 +166,51 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-sm text-text-muted">
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-            className="shrink-0"
-          >
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-          </svg>
-          <span dir="ltr" className="tabular-nums">
-            {property.phone}
-          </span>
+        {/* الهاتف + التاريخ (التاريخ مخفي على الهاتف) */}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs md:text-sm text-text-muted">
+          <div className="flex items-center gap-1">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+              className="shrink-0"
+            >
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+            <span dir="ltr" className="tabular-nums">
+              {property.phone}
+            </span>
+          </div>
+          <div className="hidden md:flex items-center gap-1">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+              className="shrink-0"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <path d="M16 2v4M8 2v4M3 10h18" />
+            </svg>
+            <span className="tabular-nums">
+              {formatDate(property.publishedAt)}
+            </span>
+          </div>
         </div>
 
-        <div className="mt-auto pt-3 border-t text-xs text-text-muted">
+        {/* رقم المرجع (مخفي على الهاتف) */}
+        <div className="hidden md:block mt-auto pt-2 border-t text-xs text-text-muted">
           رقم المرجع:{" "}
           <span dir="ltr" className="font-medium">
             {property.reference}
