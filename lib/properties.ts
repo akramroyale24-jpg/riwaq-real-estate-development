@@ -7,7 +7,17 @@ import type {
   LandSubCategory,
   BuildingSubCategory,
   ProjectSubCategory,
+  ReservationSubCategory,
   PriceUnit,
+    // ---- السعر (بالبنتيم) ----
+  price: number | null;
+  priceUnit?: PriceUnit;
+
+  // ---- حقل الحجز (يُستخدم فقط عند transaction === "reservation") ----
+  reservationType?: ReservationSubCategory;
+
+  // ---- الصور ----
+  image?: string | null;
 } from "./constants";
 
 // --------------------------------------------
