@@ -9,6 +9,7 @@ import { SAMPLE_PROPERTIES } from "@/lib/properties";
 import { SAMPLE_PROFESSIONALS } from "@/lib/professionals";
 import { SAMPLE_MARKET_ITEMS } from "@/lib/market-items";
 import { SAMPLE_ARTICLES } from "@/lib/encyclopedia";
+import { PUBLISH_PROPERTY_FORM_URL } from "@/lib/external-links";
 
 export default function Home() {
   const featuredProperties = SAMPLE_PROPERTIES.slice(0, 3);
@@ -90,80 +91,88 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ------- عينات: العروض العقارية ------- */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">أحدث العروض العقارية</h2>
-          <Link
-            href="/real-estate"
-            className="text-sm text-primary hover:underline"
-          >
-            عرض الكل ←
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {featuredProperties.map((property) => (
-            <PropertyCard key={property.id} property={property} />
-          ))}
-        </div>
-      </section>
+      {/* عينات: العروض العقارية */}
+      {featuredProperties.length > 0 && (
+        <section className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold">أحدث العروض العقارية</h2>
+            <Link
+              href="/real-estate"
+              className="text-sm text-primary hover:underline"
+            >
+              عرض الكل ←
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-4">
+            {featuredProperties.map((property) => (
+              <PropertyCard key={property.id} property={property} />
+            ))}
+          </div>
+        </section>
+      )}
 
-      {/* ------- عينات: المهنيون والشركاء ------- */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">مهنيون مميزون</h2>
-          <Link
-            href="/professionals"
-            className="text-sm text-primary hover:underline"
-          >
-            عرض الكل ←
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {featuredProfessionals.map((professional) => (
-            <ProfessionalCard
-              key={professional.id}
-              professional={professional}
-            />
-          ))}
-        </div>
-      </section>
+      {/* عينات: المهنيون والشركاء */}
+      {featuredProfessionals.length > 0 && (
+        <section className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold">مهنيون مميزون</h2>
+            <Link
+              href="/professionals"
+              className="text-sm text-primary hover:underline"
+            >
+              عرض الكل ←
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {featuredProfessionals.map((professional) => (
+              <ProfessionalCard
+                key={professional.id}
+                professional={professional}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
-      {/* ------- عينات: سوق البناء والتجهيزات ------- */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">جديد سوق البناء</h2>
-          <Link
-            href="/market"
-            className="text-sm text-primary hover:underline"
-          >
-            عرض الكل ←
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {featuredMarketItems.map((item) => (
-            <MarketCard key={item.id} item={item} />
-          ))}
-        </div>
-      </section>
+      {/* عينات: سوق البناء والتجهيزات */}
+      {featuredMarketItems.length > 0 && (
+        <section className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold">جديد سوق البناء</h2>
+            <Link
+              href="/market"
+              className="text-sm text-primary hover:underline"
+            >
+              عرض الكل ←
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {featuredMarketItems.map((item) => (
+              <MarketCard key={item.id} item={item} />
+            ))}
+          </div>
+        </section>
+      )}
 
-      {/* ------- عينات: الموسوعة العقارية والعمرانية ------- */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">من الموسوعة العقارية</h2>
-          <Link
-            href="/encyclopedia"
-            className="text-sm text-primary hover:underline"
-          >
-            عرض الكل ←
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {featuredArticles.map((article) => (
-            <ArticleCard key={article.id} article={article} />
-          ))}
-        </div>
-      </section>
+      {/* عينات: الموسوعة العقارية والعمرانية */}
+      {featuredArticles.length > 0 && (
+        <section className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold">من الموسوعة العقارية</h2>
+            <Link
+              href="/encyclopedia"
+              className="text-sm text-primary hover:underline"
+            >
+              عرض الكل ←
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {featuredArticles.map((article) => (
+              <ArticleCard key={article.id} article={article} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* شريط الأمان والتوثيق */}
       <section className="rounded-lg border bg-surface-elevated p-6 space-y-3">
@@ -174,7 +183,7 @@ export default function Home() {
         </p>
       </section>
 
-      {/* دعوة لنشر إعلان — بصرية فقط، ستُفعّل لاحقًا */}
+      {/* دعوة لنشر إعلان — مفعّلة الآن */}
       <section className="rounded-lg border bg-surface p-8 text-center space-y-4 shadow-card">
         <h2 className="text-2xl font-bold">
           هل لديك عقار أو خدمة لنشرها؟
@@ -182,17 +191,27 @@ export default function Home() {
         <p className="text-text-muted leading-relaxed">
           انشر إعلانك الآن وسيتم مراجعته من فريق رواق قبل النشر.
         </p>
-        <button
-          type="button"
-          aria-label="نشر إعلان (غير مفعّل حاليًا)"
-          disabled
-          className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-md border border-border bg-surface-elevated px-6 py-3 text-text-muted font-medium cursor-not-allowed"
+        <a
+          href={PUBLISH_PROPERTY_FORM_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-2 min-h-[44px] rounded-md bg-primary px-6 py-3 text-primary-foreground font-medium transition-opacity hover:opacity-90"
         >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 5v14M5 12h14" />
+          </svg>
           أنشر إعلانك
-        </button>
-        <p className="text-sm text-text-muted">
-          خاصية النشر ستُفعّل قريبًا
-        </p>
+        </a>
       </section>
     </div>
   );
