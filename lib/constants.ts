@@ -111,3 +111,21 @@ export const PRICE_UNIT_LABELS: Record<PriceUnit, string> = {
   total: "",
   monthly: "/ شهر",
 };
+// --------------------------------------------
+// 7. تصنيفات الحجز
+// --------------------------------------------
+export const RESERVATION_SUB_CATEGORIES = {
+  VSP: "vsp",
+  HIFZ_HAQ: "hifz-haq",
+} as const;
+
+export type ReservationSubCategory =
+  (typeof RESERVATION_SUB_CATEGORIES)[keyof typeof RESERVATION_SUB_CATEGORIES];
+
+export const RESERVATION_SUB_CATEGORY_LABELS: Record<
+  ReservationSubCategory,
+  string
+> = {
+  vsp: "عقد البيع على التصاميم (VSP)",
+  "hifz-haq": "عقد حفظ الحق",
+};
