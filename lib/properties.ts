@@ -7,26 +7,59 @@ import type {
   LandSubCategory,
   BuildingSubCategory,
   ProjectSubCategory,
+  PriceUnit,
 } from "./constants";
 
 // --------------------------------------------
 // 1. الحقول المشتركة بين كل العقارات
 // --------------------------------------------
 type PropertyBase = {
+  // ---- أساسي ----
   id: string;
-  reference: string; // مثال: RQ-2026-00147
+  reference: string;
   transaction: Transaction;
-  wilaya: string; // اسم الولاية
-  baladiya: string; // اسم البلدية (نص حر)
-  area: number; // المساحة بالمتر المربع
-  price: number | null; // null = "السعر عند الاتصال"
-  priceUnit?: "total" | "monthly"; // monthly للإيجار الشهري
+  publishedAt: string; // ISO: YYYY-MM-DD
+
+  // ---- 1. الموقع ----
+  wilaya: string;
+  baladiya: string;
+  neighborhood: string;
+  urbanPlan: string;
+  area: number; // المساحة الإجمالية بالمتر المربع
+  builtArea?: number; // مساحة المبنى (اختياري)
+  gardenArea?: number; // مساحة الحديقة (اختياري)
+
+  // ---- 2. وثائق الملكية ----
+  realEstateBook: string;
+  ownershipDeed: string;
+  surveyDocuments: string;
+
+  // ---- 3. الرخص ----
+  buildingPermit: string;
+  subdivisionPermit: string;
+  demolitionPermit: string;
+
+  // ---- 4. الوضعية القانونية ----
+  negativeCertificate: string;
+  urbanizationCertificate: string;
+  judicialRulings: string;
+
+  // ---- الوصف ----
+  description: string;
+
+  // ---- التواصل ----
   phone: string;
-  image?: string | null; // null = placeholder
+
+  // ---- السعر (بالبنتيم) ----
+  price: number | null;
+  priceUnit?: PriceUnit;
+
+  // ---- الصور ----
+  image?: string | null;
 };
 
 // --------------------------------------------
-// 2. الأنواع الأربعة (Discriminated Union)
+// 2. الأنواع الثلاثة (Discriminated Union)
 // --------------------------------------------
 type LandProperty = PropertyBase & {
   type: "land";
@@ -43,149 +76,57 @@ type ProjectProperty = PropertyBase & {
   subCategory: ProjectSubCategory;
 };
 
-type CommercialProperty = PropertyBase & {
-  type: "commercial";
-  subCategory?: string;
-};
-
 // --------------------------------------------
 // 3. النوع الموحّد
 // --------------------------------------------
-export type Property =
-  | LandProperty
-  | BuildingProperty
-  | ProjectProperty
-  | CommercialProperty;
+export type Property = LandProperty | BuildingProperty | ProjectProperty;
 
 // --------------------------------------------
-// 4. بيانات النماذج (9 بطاقات)
+// 4. بيانات النماذج (فارغة حاليًا)
 // --------------------------------------------
-export const SAMPLE_PROPERTIES: Property[] = [
-  // 1. أرض في منطقة حضرية — بيع
-  {
-    id: "prop-001",
-    reference: "RQ-2026-00147",
-    transaction: "sale",
-    type: "land",
-    subCategory: "urban",
-    wilaya: "الجزائر",
-    baladiya: "باب الوادي",
-    area: 250,
-    price: 12500000,
-    phone: "0555 12 34 56",
-  },
+export const SAMPLE_PROPERTIES: Property[] = [];
 
-  // 2. أرض في منطقة سياحية — بيع
-  {
-    id: "prop-002",
-    reference: "RQ-2026-00152",
-    transaction: "sale",
-    type: "land",
-    subCategory: "touristic",
-    wilaya: "تيبازة",
-    baladiya: "شرشال",
-    area: 800,
-    price: 24000000,
-    phone: "0555 12 34 57",
-  },
+// --------------------------------------------
+// 5. تنسيق الأرقام (بلا toLocaleString لمنع hydration mismatch)
+// --------------------------------------------
+function formatNumber(n: number): string {
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
 
-  // 3. أرض في منطقة زراعية — بيع
-  {
-    id: "prop-003",
-    reference: "RQ-2026-00158",
-    transaction: "sale",
-    type: "land",
-    subCategory: "agricultural",
-    wilaya: "البليدة",
-    baladiya: "الأربعاء",
-    area: 5000,
-    price: 18000000,
-    phone: "0555 12 34 58",
-  },
+// --------------------------------------------
+// 6. تنسيق السعر (بالبنتيم → مليون سنتيم أو سنتيم)
+// --------------------------------------------
+export function formatPrice(property: Property): string {
+  if (property.price === null) return "السعر عند الاتصال";
 
-  // 4. مشروع سياحي — بيع
-  {
-    id: "prop-004",
-    reference: "RQ-2026-00163",
-    transaction: "sale",
-    type: "project",
-    subCategory: "touristic",
-    wilaya: "تيبازة",
-    baladiya: "القليعة",
-    area: 5000,
-    price: null,
-    phone: "0555 12 34 59",
-  },
+  const centimes = property.price;
+  let formatted: string;
 
-  // 5. شقة — إيجار
-  {
-    id: "prop-005",
-    reference: "RQ-2026-00171",
-    transaction: "rent",
-    type: "building",
-    subCategory: "apartment",
-    wilaya: "وهران",
-    baladiya: "بئر الجير",
-    area: 90,
-    price: 45000,
-    priceUnit: "monthly",
-    phone: "0555 12 34 60",
-  },
+  if (centimes >= 1_000_000) {
+    const millions = centimes / 1_000_000;
+    // إن كان الرقم صحيحًا (بلا كسور) نعرضه كاملًا
+    const millionsStr =
+      millions % 1 === 0
+        ? formatNumber(millions)
+        : millions.toString().replace(".", ",");
+    formatted = `${millionsStr} مليون سنتيم`;
+  } else {
+    formatted = `${formatNumber(centimes)} سنتيم`;
+  }
 
-  // 6. فيلا — إيجار
-  {
-    id: "prop-006",
-    reference: "RQ-2026-00177",
-    transaction: "rent",
-    type: "building",
-    subCategory: "villa",
-    wilaya: "الجزائر",
-    baladiya: "حيدرة",
-    area: 320,
-    price: 250000,
-    priceUnit: "monthly",
-    phone: "0555 12 34 61",
-  },
+  if (property.priceUnit === "monthly") {
+    formatted += " / شهر";
+  }
 
-  // 7. مشروع سكني — حجز (VSP)
-  {
-    id: "prop-007",
-    reference: "RQ-2026-00184",
-    transaction: "reservation",
-    type: "project",
-    subCategory: "residential",
-    wilaya: "سطيف",
-    baladiya: "العلمة",
-    area: 120,
-    price: null,
-    phone: "0555 12 34 62",
-  },
+  return formatted;
+}
 
-  // 8. منزل — بيع
-  {
-    id: "prop-008",
-    reference: "RQ-2026-00190",
-    transaction: "sale",
-    type: "building",
-    subCategory: "house",
-    wilaya: "قسنطينة",
-    baladiya: "الخروب",
-    area: 180,
-    price: 22000000,
-    phone: "0555 12 34 63",
-  },
-
-  // 9. محل تجاري — إيجار
-  {
-    id: "prop-009",
-    reference: "RQ-2026-00196",
-    transaction: "rent",
-    type: "commercial",
-    wilaya: "عنابة",
-    baladiya: "الحجار",
-    area: 65,
-    price: 80000,
-    priceUnit: "monthly",
-    phone: "0555 12 34 64",
-  },
-];
+// --------------------------------------------
+// 7. تنسيق التاريخ (ISO → DD-MM-YYYY)
+// --------------------------------------------
+export function formatDate(isoDate: string): string {
+  const parts = isoDate.split("-");
+  if (parts.length !== 3) return isoDate;
+  const [year, month, day] = parts;
+  return `${day}-${month}-${year}`;
+}
