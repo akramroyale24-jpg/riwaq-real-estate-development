@@ -26,7 +26,6 @@ export const PROPERTY_TYPES = {
   LAND: "land",
   BUILDING: "building",
   PROJECT: "project",
-  COMMERCIAL: "commercial",
 } as const;
 
 export type PropertyType =
@@ -36,7 +35,6 @@ export const PROPERTY_TYPE_LABELS: Record<PropertyType, string> = {
   land: "أرض",
   building: "مبنى",
   project: "مشروع",
-  commercial: "محل تجاري",
 };
 
 // --------------------------------------------
@@ -44,8 +42,8 @@ export const PROPERTY_TYPE_LABELS: Record<PropertyType, string> = {
 // --------------------------------------------
 export const LAND_SUB_CATEGORIES = {
   URBAN: "urban",
-  INDUSTRIAL: "industrial",
   AGRICULTURAL: "agricultural",
+  INDUSTRIAL: "industrial",
   TOURISTIC: "touristic",
 } as const;
 
@@ -54,8 +52,8 @@ export type LandSubCategory =
 
 export const LAND_SUB_CATEGORY_LABELS: Record<LandSubCategory, string> = {
   urban: "أرض في منطقة حضرية",
-  industrial: "أرض في منطقة صناعية",
   agricultural: "أرض في منطقة زراعية",
+  industrial: "أرض في منطقة صناعية",
   touristic: "أرض في منطقة سياحية",
 };
 
@@ -63,38 +61,53 @@ export const LAND_SUB_CATEGORY_LABELS: Record<LandSubCategory, string> = {
 // 4. التصنيفات الفرعية — المباني
 // --------------------------------------------
 export const BUILDING_SUB_CATEGORIES = {
-  APARTMENT: "apartment",
-  HOUSING_UNIT: "housing-unit",
-  HOUSE: "house",
-  VILLA: "villa",
+  RESIDENTIAL: "residential",
+  COMMERCIAL: "commercial",
+  PROFESSIONAL: "professional",
+  INDUSTRIAL: "industrial",
 } as const;
 
 export type BuildingSubCategory =
   (typeof BUILDING_SUB_CATEGORIES)[keyof typeof BUILDING_SUB_CATEGORIES];
 
 export const BUILDING_SUB_CATEGORY_LABELS: Record<BuildingSubCategory, string> = {
-  apartment: "شقة",
-  "housing-unit": "وحدة سكنية",
-  house: "منزل",
-  villa: "فيلا",
+  residential: "عقار سكني",
+  commercial: "عقار تجاري",
+  professional: "عقار مهني",
+  industrial: "عقار صناعي",
 };
 
 // --------------------------------------------
 // 5. التصنيفات الفرعية — المشاريع
 // --------------------------------------------
 export const PROJECT_SUB_CATEGORIES = {
-  RESIDENTIAL: "residential",
-  COMMERCIAL: "commercial",
-  TOURISTIC: "touristic",
-  INDUSTRIAL: "industrial",
+  ASSETS: "assets",
+  AGRICULTURAL: "agricultural",
+  INVESTMENT: "investment",
+  TOURISM: "tourism",
 } as const;
 
 export type ProjectSubCategory =
   (typeof PROJECT_SUB_CATEGORIES)[keyof typeof PROJECT_SUB_CATEGORIES];
 
 export const PROJECT_SUB_CATEGORY_LABELS: Record<ProjectSubCategory, string> = {
-  residential: "مشروع سكني",
-  commercial: "مشروع تجاري",
-  touristic: "مشروع سياحي",
-  industrial: "مشروع صناعي",
+  assets: "أصول عقارية",
+  agricultural: "مشاريع فلاحية وإنتاجية",
+  investment: "مشاريع استثمارية وخدماتية",
+  tourism: "مشاريع سياحية وترفيهية",
+};
+
+// --------------------------------------------
+// 6. وحدات السعر (للعرض فقط)
+// --------------------------------------------
+export const PRICE_UNITS = {
+  TOTAL: "total",
+  MONTHLY: "monthly",
+} as const;
+
+export type PriceUnit = (typeof PRICE_UNITS)[keyof typeof PRICE_UNITS];
+
+export const PRICE_UNIT_LABELS: Record<PriceUnit, string> = {
+  total: "",
+  monthly: "/ شهر",
 };
